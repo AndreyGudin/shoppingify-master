@@ -1,8 +1,8 @@
-import { LoginForm } from "@/entities/LoginForm/ui/LoginForm";
+import { LoginForm } from "@/entities/LoginForm";
 
 export default function LoginPage() {
   return (
-    <main>
+    <main className='h-screen flex justify-center items-center'>
       <LoginForm />
     </main>
   );

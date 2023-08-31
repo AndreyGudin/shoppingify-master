@@ -1,23 +1,22 @@
 "use client";
 
-import { SubmitHandler, useForm } from "react-hook-form";
 import { memo, useState } from "react";
 import type { FC } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { SubmitHandler, useForm } from "react-hook-form";
 
+import { User } from "@/entities/User";
 import { Button } from "@/shared/ui/Button/Button";
 import { Input } from "@/shared/ui/Input/Input";
 import { Label } from "@/shared/ui/Label/Label";
-import { User } from "@/entities/User";
 import { signIn } from "next-auth/react";
 
-interface LoginFormProps {
+interface RegisterFormProps {
   className?: string;
 }
 
-export const LoginForm: FC<LoginFormProps> = memo(function LoginForm({
+export const RegisterForm: FC<RegisterFormProps> = memo(function RegisterForm({
   className = "",
-}: LoginFormProps) {
+}: RegisterFormProps) {
   const {
     register,
     handleSubmit,
@@ -25,32 +24,30 @@ export const LoginForm: FC<LoginFormProps> = memo(function LoginForm({
   } = useForm<User>({
     mode: "onChange",
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const onSubmit: SubmitHandler<User> = async (data) => {
     try {
       setLoading(true);
-      const res = await signIn("credentials", {
-        redirect: false,
-        email: data.email,
-        password: data.password,
-        callbackUrl,
+      const res = await fetch("/api/register", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       setLoading(false);
-      console.log(res);
-      if (!res?.error) {
-        router.push(callbackUrl);
-      } else {
-        setError("invalid email or password");
+      if (!res.ok) {
+        setError((await res.json()).message);
+        return;
       }
+      signIn(undefined, { callbackUrl: "/" });
     } catch (error: any) {
       setLoading(false);
       setError(error);
@@ -62,11 +59,21 @@ export const LoginForm: FC<LoginFormProps> = memo(function LoginForm({
       className={`${className} w-[409px] min-h-[382px] flex flex-col gap-8 bg-white rounded-2xl justify-center p-8`}
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h2 className='font-bold text-base text-center'>Вход</h2>
+      <h2 className='font-bold text-base text-center'>Регистрация</h2>
       <div className='flex flex-col gap-6'>
+        <Input
+          type='text'
+          title='Имя'
+          placeholder='Введите ваше имя'
+          {...register("name", { required: true })}
+        />
+        {errors.name?.type === "required" && (
+          <Label>This field is required</Label>
+        )}
         <Input
           type='email'
           title='Логин'
+          placeholder='Введите ваш email адрес'
           {...register("email", { required: true })}
         />
         {errors.email?.type === "required" && (
@@ -76,6 +83,7 @@ export const LoginForm: FC<LoginFormProps> = memo(function LoginForm({
           type='password'
           className='input-without-arrows'
           title='Пароль'
+          placeholder='Введите ваш пароль'
           {...register("password", {
             required: true,
             minLength: 8,
@@ -89,7 +97,7 @@ export const LoginForm: FC<LoginFormProps> = memo(function LoginForm({
         )}
       </div>
       <Button disabled={loading} loading={loading} type='submit'>
-        Войти
+        Зарегистрироваться
       </Button>
     </form>
   );

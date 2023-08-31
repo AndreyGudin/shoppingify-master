@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={""}>
+      <body className={"min-h-screen bg-slate-400"}>
         <NextAuthProvider>{children}</NextAuthProvider>
       </body>
     </html>

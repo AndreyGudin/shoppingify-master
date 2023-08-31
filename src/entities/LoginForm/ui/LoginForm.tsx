@@ -88,7 +88,9 @@ export const LoginForm: FC<LoginFormProps> = memo(function LoginForm({
           <Label>Password must be more than 8 digits</Label>
         )}
       </div>
-      <Button type='submit'>Войти</Button>
+      <Button disabled={loading} loading={loading} type='submit'>
+        Войти
+      </Button>
     </form>
   );
 });

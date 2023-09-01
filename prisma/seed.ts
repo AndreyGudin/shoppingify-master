@@ -14,7 +14,20 @@ async function main() {
       password,
     },
   });
-  console.log({ user });
+  const categories = await prisma.category.createMany({
+    data: [
+      {
+        name: "Fruit and vegetables",
+      },
+      {
+        name: "Meat and fish",
+      },
+      {
+        name: "Beverages",
+      },
+    ],
+  });
+  console.log({ user, categories });
 }
 main()
   .then(() => prisma.$disconnect())

@@ -15,7 +15,7 @@ export const Item: FC<ItemProps> = memo(function Item({
 }: ItemProps) {
   return (
     <div
-      className={`${className} rounded-xl p-4 flex justify-between items-center w-[182px] min-h-[50px] shadow shadow-[rgba(0, 0, 0, 0.05)]`}
+      className={`${className} bg-white rounded-xl p-4 flex justify-between items-center w-[182px] min-h-[50px] shadow shadow-[rgba(0, 0, 0, 0.05)]`}
     >
       <Label>{name}</Label>
       <Plus color='#C1C1C4' />

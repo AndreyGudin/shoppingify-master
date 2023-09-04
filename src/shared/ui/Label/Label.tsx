@@ -6,13 +6,14 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/lib";
 
-const labelVariants = cva(
+export const labelVariants = cva(
   "font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 leading-5",
   {
     variants: {
       type: {
         regular: ["text-base leading-5 text-black"],
         small: ["text-xs text-textSmall"],
+        big: ["text-[26px] leading-[32.5px]"],
       },
     },
     defaultVariants: {

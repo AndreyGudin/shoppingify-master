@@ -27,7 +27,56 @@ async function main() {
       },
     ],
   });
-  console.log({ user, categories });
+  const items = await prisma.item.createMany({
+    data: [
+      {
+        name: "Avocado",
+        categoryId: 1,
+        userId: user.id,
+      },
+      {
+        name: "Banana",
+        categoryId: 1,
+        userId: user.id,
+      },
+      {
+        name: "Watermelon",
+        categoryId: 1,
+        userId: user.id,
+      },
+      {
+        name: "Chicken 1kg",
+        categoryId: 2,
+        userId: user.id,
+      },
+      {
+        name: "Salmon 1kg",
+        categoryId: 2,
+        userId: user.id,
+      },
+      {
+        name: "Chicken leg box",
+        categoryId: 2,
+        userId: user.id,
+      },
+      {
+        name: "Chicken 1kg",
+        categoryId: 3,
+        userId: user.id,
+      },
+      {
+        name: "Salmon 1kg",
+        categoryId: 3,
+        userId: user.id,
+      },
+      {
+        name: "Chicken leg box",
+        categoryId: 3,
+        userId: user.id,
+      },
+    ],
+  });
+  console.log({ user, categories, items });
 }
 main()
   .then(() => prisma.$disconnect())

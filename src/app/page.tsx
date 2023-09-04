@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/config/authOptions/auth";
 import { SignOutButton } from "@/features/SignOutButton";
-import { Item } from "@/shared/ui/Item";
+import { Item } from "@/entities/Item";
 import { db } from "@/config/db/db";
 import { ItemsBoard } from "@/features/ItemsBoard/ui/ItemsBoard";
 

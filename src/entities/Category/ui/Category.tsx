@@ -1,4 +1,4 @@
-import { Item } from "@/shared/ui/Item";
+import { Item } from "@/entities/Item";
 import { Label } from "@/shared/ui/Label/Label";
 import { memo } from "react";
 import type { FC } from "react";

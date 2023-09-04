@@ -1,4 +1,4 @@
-import { ItemSchema } from "@/shared/ui/Item";
+import { ItemSchema } from "@/entities/Item";
 
 export interface CategorySchema {
   id: number;

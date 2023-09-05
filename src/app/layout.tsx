@@ -1,8 +1,8 @@
-import { NextAuthProvider } from "@/config/providers/NextAuthProvider";
 import localFont from "next/font/local";
 
 import "./globals.css";
 import type { Metadata } from "next";
+import { CustomProviders } from "@/config/providers/CustomProviders";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`min-h-screen bg-background ${font.className}`}>
-        <NextAuthProvider>{children}</NextAuthProvider>
+        <CustomProviders>{children}</CustomProviders>
       </body>
     </html>
   );

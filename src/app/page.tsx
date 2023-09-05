@@ -1,7 +1,7 @@
 import { SignOutButton } from "@/features/SignOutButton";
 import { db } from "@/config/db/db";
 import { ItemsBoard } from "@/features/ItemsBoard/ui/ItemsBoard";
-import { ShoppingList } from "@/features/ShoppingList";
+import { ShoppingListControls } from "@/features/ShoppingListControls";
 
 export default async function Home() {
   const categories = await db.category.findMany({
@@ -14,7 +14,7 @@ export default async function Home() {
     <main className='flex min-h-screen items-center'>
       <SignOutButton />
       <ItemsBoard categories={categories} />
-      <ShoppingList />
+      <ShoppingListControls />
     </main>
   );
 }

@@ -17,7 +17,7 @@ export const ItemsBoard: FC<ItemsBoardProps> = memo(function ItemsBoard({
 }: ItemsBoardProps) {
   return (
     <section
-      className={`${className} h-full w-full flex flex-col gap-[48px] px-[80px]`}
+      className={`${className} h-screen justify-center w-full flex flex-col gap-[48px] px-[80px]`}
     >
       <div className='flex justify-between'>
         <h1 className={labelVariants({ type: "big", className: "w-[450px]" })}>

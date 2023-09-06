@@ -1,0 +1,47 @@
+import { memo, useCallback, useState } from "react";
+import type { FC } from "react";
+
+import { Plus } from "lucide-react";
+import { Minus } from "lucide-react";
+import { Trash } from "lucide-react";
+
+import { Button } from "@/shared/ui/Button";
+import { CounterText } from "../CounterText/CounterText";
+
+interface CounterProps {
+  className?: string;
+}
+
+export const Counter: FC<CounterProps> = memo(function Counter({
+  className = "",
+}: CounterProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+
+  if (!isOpen) return <CounterText onClick={handleClick} text={"3 pcs"} />;
+  return (
+    <div
+      className={`${className} w-[174px] h-[45px] flex items-center bg-primary rounded-xl`}
+    >
+      <Button
+        variant={"secondary"}
+        size={"outline"}
+        className='w-[37px] h-full bg-secondary'
+      >
+        <Trash className='stroke-white' width={24} height={24} />
+      </Button>
+      <div className='flex gap-1 flex-grow justify-center items-center'>
+        <Button variant={"outline"} size={"icon"}>
+          <Minus className='stroke-secondary hover:stroke-secondary/80' />
+        </Button>
+        <CounterText text={"3 pcs"} />
+        <Button variant={"outline"} size={"icon"}>
+          <Plus className='stroke-secondary hover:stroke-secondary/80' />
+        </Button>
+      </div>
+    </div>
+  );
+});

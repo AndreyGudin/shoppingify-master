@@ -1,7 +1,7 @@
 "use client";
 
 import { Category, CategorySchema } from "@/entities/Category";
-import { SearchItem } from "@/widgets/SearchItem";
+import { SearchItem } from "@/features/SearchItem";
 import { labelVariants } from "@/shared/ui/Label";
 import { memo } from "react";
 import type { FC } from "react";

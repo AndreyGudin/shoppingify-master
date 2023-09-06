@@ -2,9 +2,9 @@
 
 import { memo, useContext, useEffect } from "react";
 import type { FC } from "react";
-import { AddItem } from "@/widgets/AddItem";
 import { ShoppingListContext } from "@/entities/ShoppingList";
-import { Button } from "@/shared/ui/Button";
+import { Counter } from "@/features/Counter";
+import { AddItem } from "@/features/AddItem";
 
 interface ShoppingListControlsProps {
   className?: string;
@@ -18,6 +18,7 @@ export const ShoppingListControls: FC<ShoppingListControlsProps> = memo(
       <aside
         className={`${className} w-full flex flex-col items-center h-screen pt-[44px]`}
       >
+        <Counter />
         <AddItem />
       </aside>
     );

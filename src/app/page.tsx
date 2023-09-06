@@ -1,7 +1,7 @@
 import { SignOutButton } from "@/features/SignOutButton";
 import { db } from "@/config/db/db";
-import { ItemsBoard } from "@/features/ItemsBoard/ui/ItemsBoard";
-import { ShoppingListControls } from "@/features/ShoppingListControls";
+import { ItemsBoard } from "@/widgets/ItemsBoard";
+import { ShoppingListControls } from "@/widgets/ShoppingListControls";
 
 export default async function Home() {
   const categories = await db.category.findMany({

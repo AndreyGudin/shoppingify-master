@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import type { FC } from "react";
 
 import { Plus } from "lucide-react";
@@ -7,6 +7,7 @@ import { Trash } from "lucide-react";
 
 import { Button } from "@/shared/ui/Button";
 import { CounterText } from "../CounterText/CounterText";
+import { useClickOutside } from "@/shared/hooks/useClickOutside";
 
 interface CounterProps {
   className?: string;
@@ -17,13 +18,24 @@ export const Counter: FC<CounterProps> = memo(function Counter({
 }: CounterProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClick = useCallback(() => {
-    setIsOpen(true);
+  const closeCounter = useCallback(() => {
+    setIsOpen(false);
   }, []);
 
-  if (!isOpen) return <CounterText onClick={handleClick} text={"3 pcs"} />;
+  const { isComponentVisible, ref, setIsComponentVisible } = useClickOutside({
+    isVisible: true,
+    callback: closeCounter,
+  });
+  const handleClick = useCallback(() => {
+    setIsOpen(true);
+    setIsComponentVisible(true);
+  }, [setIsComponentVisible]);
+
+  if (!isOpen || !isComponentVisible)
+    return <CounterText onClick={handleClick} text={"3 pcs"} />;
   return (
     <div
+      ref={ref}
       className={`${className} w-[174px] h-[45px] flex items-center bg-primary rounded-xl`}
     >
       <Button

@@ -6,6 +6,7 @@ import ShoppingImage from "p/shopping.svg";
 import { Label } from "@/shared/ui/Label";
 import { ShoppingListContext } from "../model/context/ShoppingListContext";
 import { Input } from "@/shared/ui/Input";
+import { ShoppingListName } from "@/features/ShoppingListName";
 
 interface ShoppingListProps {
   className?: string;
@@ -17,7 +18,9 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
   const { shoppingList } = useContext(ShoppingListContext);
 
   const noItems = (
-    <div className={`${className} flex flex-col h-full justify-center`}>
+    <div
+      className={`${className} w-[390px] flex flex-col h-full justify-center`}
+    >
       <Label className='mt-auto' type={"medium"} sort={"center"}>
         No items
       </Label>
@@ -30,7 +33,7 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
     </div>
   );
 
-  if (shoppingList.length === 0) return noItems;
+  if (shoppingList.length !== 0) return noItems;
 
-  return <Input />;
+  return <ShoppingListName />;
 });

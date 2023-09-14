@@ -1,10 +1,12 @@
 "use client";
+import { memo, useCallback, useContext, useEffect } from "react";
+import type { FC } from "react";
 
-import { Category, CategorySchema } from "@/entities/Category";
+import { CategoriesList, CategorySchema } from "@/entities/Category";
+import { ShoppingListContext } from "@/entities/ShoppingList";
 import { SearchItem } from "@/features/SearchItem";
 import { labelVariants } from "@/shared/ui/Label";
-import { memo } from "react";
-import type { FC } from "react";
+import { ItemSchema } from "@/entities/Item";
 
 interface ItemsBoardProps {
   className?: string;
@@ -15,6 +17,40 @@ export const ItemsBoard: FC<ItemsBoardProps> = memo(function ItemsBoard({
   categories,
   className = "",
 }: ItemsBoardProps) {
+  const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
+
+  const handleClick = useCallback(
+    (categoryName: string, item: ItemSchema) => {
+      setShoppingList((state) => {
+        const arr = [...state];
+        let isCategoryNotInList = true;
+        arr.forEach((obj) => {
+          if (categoryName in obj) {
+            const repeatedItem = obj[categoryName].findIndex(
+              (element) => element.id === item.id
+            );
+            const isItemRepeat = repeatedItem > -1;
+            if (isItemRepeat) {
+              obj[categoryName][repeatedItem].count += 1;
+            } else {
+              obj[categoryName].push({ ...item, count: 1 });
+            }
+
+            isCategoryNotInList = false;
+          }
+        });
+        if (isCategoryNotInList)
+          arr.push({ [categoryName]: [{ ...item, count: 1 }] });
+        return arr;
+      });
+    },
+    [setShoppingList]
+  );
+
+  useEffect(() => {
+    console.log("shoppingList", shoppingList);
+  }, [shoppingList]);
+
   return (
     <section
       className={`${className} h-screen justify-center w-full flex flex-col gap-[48px] px-[80px]`}
@@ -27,14 +63,7 @@ export const ItemsBoard: FC<ItemsBoardProps> = memo(function ItemsBoard({
         <SearchItem />
       </div>
 
-      {categories.map((category) => {
-        const items = category.items
-          .filter((item) => item.categoryId === category.id)
-          .map((item) => item.name);
-        return (
-          <Category key={category.id} name={category.name} items={items} />
-        );
-      })}
+      <CategoriesList categories={categories} handleClick={handleClick} />
     </section>
   );
 });

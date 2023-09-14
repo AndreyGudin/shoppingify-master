@@ -14,7 +14,9 @@ export const labelVariants = cva(
         regular: ["text-base leading-5 text-black"],
         white: ["text-base text-white"],
         medium: ["text-sm font-bold"],
+        mediumGray: ["text-sm text-textSmall"],
         small: ["text-xs text-textSmall"],
+        large: ["text-[18px] text-black"],
         big: ["text-[26px] leading-[32.5px]"],
       },
       sort: {

@@ -3,10 +3,9 @@ import { memo, useContext } from "react";
 import type { FC } from "react";
 
 import ShoppingImage from "p/shopping.svg";
-import { Label } from "@/shared/ui/Label";
+import { Label, labelVariants } from "@/shared/ui/Label";
 import { ShoppingListContext } from "../model/context/ShoppingListContext";
-import { Input } from "@/shared/ui/Input";
-import { ShoppingListName } from "@/features/ShoppingListName";
+import { Counter } from "@/features/Counter";
 
 interface ShoppingListProps {
   className?: string;
@@ -18,9 +17,7 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
   const { shoppingList } = useContext(ShoppingListContext);
 
   const noItems = (
-    <div
-      className={`${className} w-[390px] flex flex-col h-full justify-center`}
-    >
+    <div className={`${className} flex flex-col h-full justify-center`}>
       <Label className='mt-auto' type={"medium"} sort={"center"}>
         No items
       </Label>
@@ -33,7 +30,31 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
     </div>
   );
 
-  if (shoppingList.length !== 0) return noItems;
+  if (shoppingList.length === 0) return noItems;
 
-  return <ShoppingListName />;
+  return (
+    <div
+      className={`${className} w-full h-full overflow-y-auto pl-[48px] pr-[45px] flex flex-col gap-12`}
+    >
+      {shoppingList.map((list) => {
+        const categoryName = Object.keys(list)[0];
+        const items = Object.values(list)[0];
+        return (
+          <div key={categoryName} className='flex flex-col gap-6'>
+            <Label type={"mediumGray"}>{categoryName}</Label>
+            <div className='flex flex-col gap-6'>
+              {items.map((item) => (
+                <div key={item.id} className='flex justify-between gap-6'>
+                  <span className={labelVariants({ type: "large" })}>
+                    {item.name}
+                  </span>
+                  <Counter count={item.count} />
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 });

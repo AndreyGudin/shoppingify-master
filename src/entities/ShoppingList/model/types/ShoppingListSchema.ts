@@ -11,4 +11,8 @@ export interface ShoppingListContextType {
   setShoppingList: Dispatch<SetStateAction<ShoppingListItem[]>>;
 }
 
-export type ShoppingListItem = Record<string, ItemSchema[]>;
+export interface ItemInList extends ItemSchema {
+  count: number;
+}
+
+export type ShoppingListItem = Record<string, ItemInList[]>;

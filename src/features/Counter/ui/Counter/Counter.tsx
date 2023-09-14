@@ -11,10 +11,12 @@ import { useClickOutside } from "@/shared/hooks/useClickOutside";
 
 interface CounterProps {
   className?: string;
+  count?: number;
 }
 
 export const Counter: FC<CounterProps> = memo(function Counter({
   className = "",
+  count = 1,
 }: CounterProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,7 +34,7 @@ export const Counter: FC<CounterProps> = memo(function Counter({
   }, [setIsComponentVisible]);
 
   if (!isOpen || !isComponentVisible)
-    return <CounterText onClick={handleClick} text={"3 pcs"} />;
+    return <CounterText onClick={handleClick} text={count.toString(10)} />;
   return (
     <div
       ref={ref}

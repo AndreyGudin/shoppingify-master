@@ -3,9 +3,9 @@
 import { memo, useContext, useEffect } from "react";
 import type { FC } from "react";
 import { ShoppingList, ShoppingListContext } from "@/entities/ShoppingList";
-import { Counter } from "@/features/Counter";
 import { AddItem } from "@/features/AddItem";
 import { Label } from "@/shared/ui/Label";
+import { ShoppingListName } from "@/features/ShoppingListName";
 
 interface ShoppingListControlsProps {
   className?: string;
@@ -22,6 +22,7 @@ export const ShoppingListControls: FC<ShoppingListControlsProps> = memo(
         <AddItem />
         <Label type={"big"}>Shopping List</Label>
         <ShoppingList />
+        <ShoppingListName />
       </aside>
     );
   }

@@ -12,11 +12,17 @@ import { useClickOutside } from "@/shared/hooks/useClickOutside";
 interface CounterProps {
   className?: string;
   count?: number;
+  plus?: () => void;
+  minus?: () => void;
+  deleteItem?: () => void;
 }
 
 export const Counter: FC<CounterProps> = memo(function Counter({
   className = "",
   count = 1,
+  plus = () => {},
+  minus = () => {},
+  deleteItem = () => {},
 }: CounterProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,15 +50,16 @@ export const Counter: FC<CounterProps> = memo(function Counter({
         variant={"secondary"}
         size={"outline"}
         className='w-[37px] h-full bg-secondary'
+        onClick={deleteItem}
       >
         <Trash className='stroke-white' width={24} height={24} />
       </Button>
       <div className='flex gap-1 flex-grow justify-center items-center'>
-        <Button variant={"outline"} size={"icon"}>
+        <Button onClick={minus} variant={"outline"} size={"icon"}>
           <Minus className='stroke-secondary hover:stroke-secondary/80' />
         </Button>
         <CounterText text={`${count.toString(10)} pcs`} />
-        <Button variant={"outline"} size={"icon"}>
+        <Button onClick={plus} variant={"outline"} size={"icon"}>
           <Plus className='stroke-secondary hover:stroke-secondary/80' />
         </Button>
       </div>

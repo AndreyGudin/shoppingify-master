@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { memo, useContext } from "react";
+import { memo, useCallback, useContext } from "react";
 import type { FC } from "react";
 
 import ShoppingImage from "p/shopping.svg";
@@ -14,7 +14,7 @@ interface ShoppingListProps {
 export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
   className = "",
 }: ShoppingListProps) {
-  const { shoppingList } = useContext(ShoppingListContext);
+  const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
 
   const noItems = (
     <div className={`${className} flex flex-col h-full justify-center`}>
@@ -28,6 +28,69 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
         width={245}
       />
     </div>
+  );
+
+  const handlePlusClick = useCallback(
+    (itemId: number, categoryName: string) => {
+      setShoppingList((state) => {
+        const arr = [...state];
+        arr.forEach((category) => {
+          if (categoryName in category) {
+            const itemToChange = category[categoryName].findIndex(
+              (elem) => elem.id === itemId
+            );
+            const isItemExist = itemToChange > -1;
+            if (isItemExist) {
+              category[categoryName][itemToChange].count += 1;
+            }
+          }
+        });
+        return arr;
+      });
+    },
+    [setShoppingList]
+  );
+
+  const handleMinusClick = useCallback(
+    (itemId: number, categoryName: string) => {
+      setShoppingList((state) => {
+        const arr = [...state];
+        arr.forEach((category) => {
+          if (categoryName in category) {
+            const itemToChange = category[categoryName].findIndex(
+              (elem) => elem.id === itemId
+            );
+            const isItemExist = itemToChange > -1;
+            if (isItemExist) {
+              category[categoryName][itemToChange].count -= 1;
+            }
+          }
+        });
+        return arr;
+      });
+    },
+    [setShoppingList]
+  );
+
+  const handleDeleteClick = useCallback(
+    (itemId: number, categoryName: string) => {
+      setShoppingList((state) => {
+        const arr = [...state];
+        arr.forEach((category) => {
+          if (categoryName in category) {
+            const itemToChange = category[categoryName].findIndex(
+              (elem) => elem.id === itemId
+            );
+            const isItemExist = itemToChange > -1;
+            if (isItemExist) {
+              category[categoryName].splice(itemToChange, 1);
+            }
+          }
+        });
+        return arr;
+      });
+    },
+    [setShoppingList]
   );
 
   if (shoppingList.length === 0) return noItems;
@@ -48,7 +111,12 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
                   <span className={labelVariants({ type: "large" })}>
                     {item.name}
                   </span>
-                  <Counter count={item.count} />
+                  <Counter
+                    plus={() => handlePlusClick(item.id, categoryName)}
+                    minus={() => handleMinusClick(item.id, categoryName)}
+                    deleteItem={() => handleDeleteClick(item.id, categoryName)}
+                    count={item.count}
+                  />
                 </div>
               ))}
             </div>

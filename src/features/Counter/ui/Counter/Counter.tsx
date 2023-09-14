@@ -51,7 +51,7 @@ export const Counter: FC<CounterProps> = memo(function Counter({
         <Button variant={"outline"} size={"icon"}>
           <Minus className='stroke-secondary hover:stroke-secondary/80' />
         </Button>
-        <CounterText text={"3 pcs"} />
+        <CounterText text={`${count.toString(10)} pcs`} />
         <Button variant={"outline"} size={"icon"}>
           <Plus className='stroke-secondary hover:stroke-secondary/80' />
         </Button>

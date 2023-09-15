@@ -108,7 +108,9 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
             <div className='flex flex-col gap-6'>
               {items.map((item) => (
                 <div key={item.id} className='flex justify-between gap-6'>
-                  <span className={labelVariants({ type: "large" })}>
+                  <span
+                    className={labelVariants({ type: "large", sort: "center" })}
+                  >
                     {item.name}
                   </span>
                   <Counter

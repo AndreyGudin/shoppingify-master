@@ -25,6 +25,7 @@ module.exports = {
         textSmall: "#828282",
         primary: "#fff",
         secondary: "#F9A109",
+        disabled: "#C1C1C4",
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",

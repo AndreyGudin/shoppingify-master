@@ -19,6 +19,9 @@ export const InputVariants = cva(
           "w-[310px] h-[61px] pr-[92px] border-2 rounded-xl border-secondary",
         ],
         clear: ["w-[275px] h-[50px] rounded-xl"],
+        disabled: [
+          "w-[310px] h-[61px] pr-[92px] border-2 rounded-xl border-disabled",
+        ],
       },
     },
     defaultVariants: {

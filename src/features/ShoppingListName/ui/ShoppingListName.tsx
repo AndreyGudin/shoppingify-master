@@ -1,7 +1,9 @@
+import { memo, useContext } from "react";
+import type { FC } from "react";
+
+import { ShoppingListContext } from "@/entities/ShoppingList";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
-import { memo } from "react";
-import type { FC } from "react";
 
 interface ShoppingListNameProps {
   className?: string;
@@ -9,13 +11,20 @@ interface ShoppingListNameProps {
 
 export const ShoppingListName: FC<ShoppingListNameProps> = memo(
   function ShoppingListName({ className = "" }: ShoppingListNameProps) {
+    const { shoppingList } = useContext(ShoppingListContext);
+
     return (
       <div className={`${className} px-[40px] py-[35px] bg-white mt-auto`}>
         <div className={`relative`}>
-          <Input placeholder='Enter a name' theme={"secondary"} />
+          <Input
+            disabled={shoppingList.length === 0}
+            placeholder='Enter a name'
+            theme={shoppingList.length > 0 ? "secondary" : "disabled"}
+          />
           <Button
             type='button'
-            variant={"secondary"}
+            disabled={shoppingList.length === 0}
+            variant={shoppingList.length > 0 ? "secondary" : "disabled"}
             className='w-[87px] h-[61px] absolute top-0 right-0'
           >
             Save

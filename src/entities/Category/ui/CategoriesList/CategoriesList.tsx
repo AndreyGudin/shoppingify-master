@@ -25,7 +25,7 @@ export const CategoriesList: FC<CategoriesListProps> = memo(function Category({
         className={`${className} flex flex-col w-full gap-[18px]`}
       >
         <Label>{category.name}</Label>
-        <div className='flex justify-between'>
+        <div className='flex gap-5'>
           {items.map((item) => (
             <Item
               key={item.id}

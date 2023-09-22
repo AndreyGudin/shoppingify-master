@@ -7,7 +7,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/lib/lib";
 
 export const labelVariants = cva(
-  "font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 leading-5",
+  "font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
   {
     variants: {
       type: {

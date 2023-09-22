@@ -17,7 +17,7 @@ export const ItemsBoard: FC<ItemsBoardProps> = memo(function ItemsBoard({
   categories,
   className = "",
 }: ItemsBoardProps) {
-  const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
+  const { setShoppingList } = useContext(ShoppingListContext);
 
   const handleClick = useCallback(
     (categoryName: string, item: ItemSchema) => {
@@ -46,10 +46,6 @@ export const ItemsBoard: FC<ItemsBoardProps> = memo(function ItemsBoard({
     },
     [setShoppingList]
   );
-
-  useEffect(() => {
-    console.log("shoppingList", shoppingList);
-  }, [shoppingList]);
 
   return (
     <section

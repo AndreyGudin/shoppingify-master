@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { memo, useCallback, useContext } from "react";
 import type { FC } from "react";

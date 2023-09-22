@@ -1,3 +1,5 @@
+"use client";
+
 import { memo, useCallback, useRef, useState } from "react";
 import type { FC } from "react";
 

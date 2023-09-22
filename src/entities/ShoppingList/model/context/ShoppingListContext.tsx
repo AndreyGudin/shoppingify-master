@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext } from "react";
 import { ShoppingListContextType } from "../types/ShoppingListSchema";
 

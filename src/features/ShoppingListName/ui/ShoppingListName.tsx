@@ -1,7 +1,9 @@
+"use client";
+
 import { memo, useContext } from "react";
 import type { FC } from "react";
 
-import { ShoppingListContext } from "@/entities/ShoppingList";
+import { ShoppingListContext, ShoppingListItem } from "@/entities/ShoppingList";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
 

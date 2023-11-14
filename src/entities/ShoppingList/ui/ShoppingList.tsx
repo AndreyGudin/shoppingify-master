@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { memo, useCallback, useContext } from "react";
+import { memo, useCallback, useContext, useEffect } from "react";
 import type { FC } from "react";
 
 import ShoppingImage from "p/shopping.svg";
@@ -35,19 +35,15 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
   const handlePlusClick = useCallback(
     (itemId: number, categoryName: string) => {
       setShoppingList((state) => {
-        const arr = [...state];
-        arr.forEach((category) => {
-          if (categoryName in category) {
-            const itemToChange = category[categoryName].findIndex(
-              (elem) => elem.id === itemId
-            );
-            const isItemExist = itemToChange > -1;
-            if (isItemExist) {
-              category[categoryName][itemToChange].count += 1;
-            }
-          }
-        });
-        return arr;
+        const clone = structuredClone(state);
+        const arr = clone.get(categoryName);
+        if (arr) {
+          const itemToChange = arr.findIndex((elem) => elem.id === itemId);
+          const isItemExist = itemToChange > -1;
+          if (isItemExist) arr[itemToChange].count += 1;
+          clone.set(categoryName, arr);
+        }
+        return clone;
       });
     },
     [setShoppingList]
@@ -56,19 +52,19 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
   const handleMinusClick = useCallback(
     (itemId: number, categoryName: string) => {
       setShoppingList((state) => {
-        const arr = [...state];
-        arr.forEach((category) => {
-          if (categoryName in category) {
-            const itemToChange = category[categoryName].findIndex(
-              (elem) => elem.id === itemId
-            );
-            const isItemExist = itemToChange > -1;
-            if (isItemExist) {
-              category[categoryName][itemToChange].count -= 1;
-            }
+        const clone = structuredClone(state);
+        const arr = clone.get(categoryName);
+        if (arr) {
+          const itemToChange = arr.findIndex((elem) => elem.id === itemId);
+          const isItemExist = itemToChange > -1;
+          if (isItemExist && arr[itemToChange].count > 0) {
+            arr[itemToChange].count -= 1;
           }
-        });
-        return arr;
+          if (arr[itemToChange].count === 0) arr.splice(itemToChange, 1);
+          clone.set(categoryName, arr);
+          if (arr.length === 0) clone.delete(categoryName);
+        }
+        return clone;
       });
     },
     [setShoppingList]
@@ -77,38 +73,41 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
   const handleDeleteClick = useCallback(
     (itemId: number, categoryName: string) => {
       setShoppingList((state) => {
-        const arr = [...state];
-        arr.forEach((category) => {
-          if (categoryName in category) {
-            const itemToChange = category[categoryName].findIndex(
-              (elem) => elem.id === itemId
-            );
-            const isItemExist = itemToChange > -1;
-            if (isItemExist) {
-              category[categoryName].splice(itemToChange, 1);
-            }
+        const clone = structuredClone(state);
+        const arr = clone.get(categoryName);
+        if (arr) {
+          const itemToChange = arr.findIndex((elem) => elem.id === itemId);
+          const isItemExist = itemToChange > -1;
+          if (isItemExist) {
+            arr.splice(itemToChange, 1);
           }
-        });
-        return arr;
+          clone.set(categoryName, arr);
+          if (arr.length === 0) clone.delete(categoryName);
+        }
+        return clone;
       });
     },
     [setShoppingList]
   );
 
-  if (shoppingList.length === 0) return noItems;
+  useEffect(() => {
+    console.log("shoppingList", shoppingList);
+    console.log(shoppingList.entries());
+  }, [shoppingList]);
+
+  if (shoppingList.size === 0) return noItems;
 
   return (
     <div
       className={`${className} w-full h-full overflow-y-auto pl-[48px] pr-[45px] flex flex-col gap-12`}
     >
-      {shoppingList.map((list) => {
-        const categoryName = Object.keys(list)[0];
-        const items = Object.values(list)[0];
+      {Array.from(shoppingList.keys()).map((categoryName, i) => {
+        const items = shoppingList.get(categoryName);
         return (
           <div key={categoryName} className='flex flex-col gap-6'>
             <Label type={"mediumGray"}>{categoryName}</Label>
             <div className='flex flex-col gap-6'>
-              {items.map((item) => (
+              {items?.map((item) => (
                 <div key={item.id} className='flex justify-between gap-6'>
                   <span
                     className={labelVariants({ type: "large", sort: "center" })}

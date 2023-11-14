@@ -22,26 +22,25 @@ export const ItemsBoard: FC<ItemsBoardProps> = memo(function ItemsBoard({
   const handleClick = useCallback(
     (categoryName: string, item: ItemSchema) => {
       setShoppingList((state) => {
-        const arr = [...state];
-        let isCategoryNotInList = true;
-        arr.forEach((obj) => {
-          if (categoryName in obj) {
-            const repeatedItem = obj[categoryName].findIndex(
+        const clone = structuredClone(state);
+        if (clone.has(categoryName)) {
+          const arr = clone.get(categoryName);
+          if (arr) {
+            const repeatedItem = arr.findIndex(
               (element) => element.id === item.id
             );
-            const isItemRepeat = repeatedItem > -1;
-            if (isItemRepeat) {
-              obj[categoryName][repeatedItem].count += 1;
+            if (repeatedItem > -1) {
+              arr[repeatedItem].count += 1;
             } else {
-              obj[categoryName].push({ ...item, count: 1 });
+              arr.push({ ...item, count: 1 });
             }
-
-            isCategoryNotInList = false;
+            clone.set(categoryName, arr);
           }
-        });
-        if (isCategoryNotInList)
-          arr.push({ [categoryName]: [{ ...item, count: 1 }] });
-        return arr;
+        } else {
+          const arr = [{ ...item, count: 1 }];
+          clone.set(categoryName, arr);
+        }
+        return clone;
       });
     },
     [setShoppingList]

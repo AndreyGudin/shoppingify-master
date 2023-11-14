@@ -39,12 +39,4 @@ export const CategoriesList: FC<CategoriesListProps> = memo(function Category({
   });
 
   return content;
-  // <div className={`${className} flex flex-col w-full gap-[18px]`}>
-  //   <Label>{name}</Label>
-  //   <div className='flex justify-between'>
-  //     {items.map((item) => (
-  //       <Item onClick={onClickForItems} key={item} name={item} />
-  //     ))}
-  //   </div>
-  // </div>
 });

@@ -13,7 +13,7 @@ type CustomProvidersProps = {
 };
 
 export const CustomProviders = ({ children }: CustomProvidersProps) => {
-  const [shoppingList, setShoppingList] = useState<ShoppingListItem[]>([]);
+  const [shoppingList, setShoppingList] = useState<ShoppingListItem>(new Map());
   const state: ShoppingListContextType = {
     shoppingList,
     setShoppingList,

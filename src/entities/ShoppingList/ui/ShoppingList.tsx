@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { memo, useCallback, useContext, useEffect } from "react";
+import { memo, useCallback, useEffect } from "react";
 import type { FC } from "react";
 
 import ShoppingImage from "p/shopping.svg";
 import { Label, labelVariants } from "@/shared/ui/Label";
-import { ShoppingListContext } from "../model/context/ShoppingListContext";
 import { Counter } from "@/features/Counter";
+import { useShoppingList } from "@/entities/ShoppingList";
 
 interface ShoppingListProps {
   className?: string;
@@ -16,8 +16,7 @@ interface ShoppingListProps {
 export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
   className = "",
 }: ShoppingListProps) {
-  const { shoppingList, setShoppingList } = useContext(ShoppingListContext);
-
+  const shoppingList = useShoppingList((state) => state.shoppingList);
   const noItems = (
     <div className={`${className} flex flex-col h-full justify-center`}>
       <Label className='mt-auto' type={"medium"} sort={"center"}>
@@ -34,60 +33,61 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
 
   const handlePlusClick = useCallback(
     (itemId: number, categoryName: string) => {
-      setShoppingList((state) => {
-        const clone = structuredClone(state);
-        const arr = clone.get(categoryName);
-        if (arr) {
-          const itemToChange = arr.findIndex((elem) => elem.id === itemId);
-          const isItemExist = itemToChange > -1;
-          if (isItemExist) arr[itemToChange].count += 1;
-          clone.set(categoryName, arr);
-        }
-        return clone;
-      });
+      const clone = structuredClone(shoppingList);
+      const arr = clone.get(categoryName);
+      if (arr) {
+        const itemToChange = arr.findIndex((elem) => elem.id === itemId);
+        const isItemExist = itemToChange > -1;
+        if (isItemExist) arr[itemToChange].count += 1;
+        clone.set(categoryName, arr);
+      }
+      useShoppingList.setState(() => ({
+        shoppingList: new Map(clone),
+      }));
     },
-    [setShoppingList]
+
+    [shoppingList]
   );
 
   const handleMinusClick = useCallback(
     (itemId: number, categoryName: string) => {
-      setShoppingList((state) => {
-        const clone = structuredClone(state);
-        const arr = clone.get(categoryName);
-        if (arr) {
-          const itemToChange = arr.findIndex((elem) => elem.id === itemId);
-          const isItemExist = itemToChange > -1;
-          if (isItemExist && arr[itemToChange].count > 0) {
-            arr[itemToChange].count -= 1;
-          }
-          if (arr[itemToChange].count === 0) arr.splice(itemToChange, 1);
-          clone.set(categoryName, arr);
-          if (arr.length === 0) clone.delete(categoryName);
+      const clone = structuredClone(shoppingList);
+      const arr = clone.get(categoryName);
+      if (arr) {
+        const itemToChange = arr.findIndex((elem) => elem.id === itemId);
+        const isItemExist = itemToChange > -1;
+        if (isItemExist && arr[itemToChange].count > 0) {
+          arr[itemToChange].count -= 1;
         }
-        return clone;
-      });
+        if (arr[itemToChange].count === 0) arr.splice(itemToChange, 1);
+        clone.set(categoryName, arr);
+        if (arr.length === 0) clone.delete(categoryName);
+      }
+      useShoppingList.setState(() => ({
+        shoppingList: new Map(clone),
+      }));
     },
-    [setShoppingList]
+    [shoppingList]
   );
 
   const handleDeleteClick = useCallback(
     (itemId: number, categoryName: string) => {
-      setShoppingList((state) => {
-        const clone = structuredClone(state);
-        const arr = clone.get(categoryName);
-        if (arr) {
-          const itemToChange = arr.findIndex((elem) => elem.id === itemId);
-          const isItemExist = itemToChange > -1;
-          if (isItemExist) {
-            arr.splice(itemToChange, 1);
-          }
-          clone.set(categoryName, arr);
-          if (arr.length === 0) clone.delete(categoryName);
+      const clone = structuredClone(shoppingList);
+      const arr = clone.get(categoryName);
+      if (arr) {
+        const itemToChange = arr.findIndex((elem) => elem.id === itemId);
+        const isItemExist = itemToChange > -1;
+        if (isItemExist) {
+          arr.splice(itemToChange, 1);
         }
-        return clone;
-      });
+        clone.set(categoryName, arr);
+        if (arr.length === 0) clone.delete(categoryName);
+      }
+      useShoppingList.setState(() => ({
+        shoppingList: new Map(clone),
+      }));
     },
-    [setShoppingList]
+    [shoppingList]
   );
 
   useEffect(() => {

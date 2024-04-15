@@ -7,15 +7,15 @@ import type { FC } from "react";
 import ShoppingImage from "p/shopping.svg";
 import { Label, labelVariants } from "@/shared/ui/Label";
 import { Counter } from "@/features/Counter";
-import { useShoppingList } from "@/entities/ShoppingList";
+import { useShoppingList } from "../model/store/useShoppingList";
 
-interface ShoppingListProps {
+interface ShoppingListComponentProps {
   className?: string;
 }
 
-export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
+export const ShoppingListComponent: FC<ShoppingListComponentProps> = ({
   className = "",
-}: ShoppingListProps) {
+}: ShoppingListComponentProps) => {
   const shoppingList = useShoppingList((state) => state.shoppingList);
   const noItems = (
     <div className={`${className} flex flex-col h-full justify-center`}>
@@ -128,4 +128,4 @@ export const ShoppingList: FC<ShoppingListProps> = memo(function ShoppingList({
       })}
     </div>
   );
-});
+};

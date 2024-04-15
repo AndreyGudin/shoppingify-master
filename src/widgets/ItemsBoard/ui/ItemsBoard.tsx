@@ -3,7 +3,7 @@ import { memo, useCallback } from "react";
 import type { FC } from "react";
 
 import { CategoriesList, CategorySchema } from "@/entities/Category";
-import { useShoppingList } from "@/entities/ShoppingList";
+import { useShoppingList } from "@/entities/ShoppingListComponent";
 import { SearchItem } from "@/features/SearchItem";
 import { labelVariants } from "@/shared/ui/Label";
 import { ItemSchema } from "@/entities/Item";

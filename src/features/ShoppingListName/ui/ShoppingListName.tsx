@@ -3,7 +3,7 @@
 import { memo } from "react";
 import type { FC } from "react";
 
-import { useShoppingList } from "@/entities/ShoppingList";
+import { useShoppingList } from "@/entities/ShoppingListComponent";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
 

@@ -28,14 +28,25 @@ model Item{
   name           String
   category       Category @relation(fields: [categoryId], references: [id])
   categoryId     Int
-  shoppingList   ShoppingList[]
+  shoppingList   ItemsInShoppingLists[]
 
 }
 
 model ShoppingList{
   id       Int @id @default(autoincrement())
   name     String
-  items    Item[]
+  items    ItemsInShoppingLists[]
   user     User @relation(fields: [userId], references: [id]) 
   userId   String @unique
+}
+
+model ItemsInShoppingLists {
+  item       Item     @relation(fields: [itemId], references: [id])
+  itemId     Int
+  count      Int
+  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id])
+  shoppingListId Int
+  assignedAt DateTime @default(now())
+
+  @@id([itemId, shoppingListId])
 }

@@ -12,9 +12,6 @@ export default async function Home() {
       items: true,
     },
   });
-  const session = await getServerSession(authOptions);
-
-  console.log("session1", session);
   return (
     <main className='flex min-h-screen items-center'>
       <SignOutButton />

@@ -11,3 +11,9 @@ export interface ItemInList extends ItemSchema {
 }
 
 export type ShoppingListItem = Map<string, ItemInList[]>;
+
+export interface ShoppingList {
+  name: string;
+  items: ShoppingListItem;
+  userId: string;
+}

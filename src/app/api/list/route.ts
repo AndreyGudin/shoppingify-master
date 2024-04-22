@@ -19,7 +19,6 @@ export async function POST(req: NextRequest) {
     items.forEach((e) => {
       allItems = [...allItems, ...e[1]];
     });
-    console.log("allItems", allItems);
     const itemsForCreation = allItems.map((e) => {
       return {
         assignedAt: new Date(),
@@ -27,7 +26,6 @@ export async function POST(req: NextRequest) {
         item: { connect: { id: e.id } },
       };
     });
-    console.log("itemsForCreation", itemsForCreation);
     const existedUser = await db.user.findFirst({ where: { id: user.id } });
     console.log("existedUser", existedUser);
     if (user.email) {

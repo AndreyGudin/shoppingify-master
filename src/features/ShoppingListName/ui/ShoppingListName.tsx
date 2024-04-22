@@ -1,14 +1,12 @@
 "use client";
 
-import { memo, useEffect, useState } from "react";
+import { memo, useState } from "react";
 import type { FC } from "react";
 
 import { useShoppingList } from "@/entities/ShoppingListComponent";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
 import { useSession } from "next-auth/react";
-import { DefaultSession, Session } from "next-auth";
-import { connect } from "http2";
 
 interface ShoppingListNameProps {
   className?: string;
@@ -18,11 +16,8 @@ export const ShoppingListName: FC<ShoppingListNameProps> = memo(
   function ShoppingListName({ className = "" }: ShoppingListNameProps) {
     const [name, setName] = useState("");
     const shoppingList = useShoppingList((state) => state.shoppingList);
-    const { data: session, status } = useSession();
-    useEffect(() => {
-      console.log("shoppingList", shoppingList);
-      console.log("arr", Array.from(shoppingList));
-    }, [shoppingList]);
+    const { data: session } = useSession();
+
     const saveList = () => {
       const shoppingListArr = Array.from(shoppingList);
       if (session) {

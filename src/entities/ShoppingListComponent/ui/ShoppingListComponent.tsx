@@ -90,11 +90,6 @@ export const ShoppingListComponent: FC<ShoppingListComponentProps> = ({
     [shoppingList]
   );
 
-  useEffect(() => {
-    console.log("shoppingList", shoppingList);
-    console.log(shoppingList.entries());
-  }, [shoppingList]);
-
   if (shoppingList.size === 0) return noItems;
 
   return (

@@ -3,6 +3,7 @@ import { AddItem } from "@/features/AddItem";
 import { Label } from "@/shared/ui/Label";
 import { ShoppingListName } from "@/features/ShoppingListName";
 import { ShoppingListComponent } from "@/entities/ShoppingListComponent";
+import { ShoppingListCompleteCancel } from "@/features/ShoppingListCompleteCancel";
 
 interface ShoppingListControlsProps {
   className?: string;
@@ -18,7 +19,7 @@ export const ShoppingListControls: FC<ShoppingListControlsProps> = ({
       <AddItem />
       <Label type={"big"}>Shopping List</Label>
       <ShoppingListComponent />
-      <ShoppingListName />
+      <ShoppingListCompleteCancel />
     </aside>
   );
 };

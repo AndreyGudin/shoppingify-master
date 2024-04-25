@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     const existedUser = await db.user.findFirst({ where: { id: user.id } });
     console.log("existedUser", existedUser);
     if (user.email) {
-      const shoppingList = await db.shoppingList.create({
+      await db.shoppingList.create({
         data: {
           name,
           user: {
@@ -55,7 +55,6 @@ export async function POST(req: NextRequest) {
       }),
       { status: 402 }
     );
-    console.log("back3");
   } catch (error: any) {
     console.log("error", error);
     return new NextResponse(
@@ -67,6 +66,48 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams;
+  const email = searchParams.get("email");
+  try {
+    if (email) {
+      const getShoppingList = await db.shoppingList.findMany({
+        where: { items: { some: { shoppingListId: 2 } } },
+        include: {
+          items: {
+            include: {
+              item: {
+                include: {
+                  category: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      console.log("getShoppingList", getShoppingList);
+
+      return NextResponse.json({ ...getShoppingList[0] });
+    }
+    return new NextResponse(
+      JSON.stringify({
+        status: "error",
+        message: "Not Found",
+      }),
+      { status: 402 }
+    );
+  } catch (error: any) {
+    return new NextResponse(
+      JSON.stringify({
+        status: "error",
+        message: error.message,
+      }),
+      { status: 500 }
+    );
+  }
+}
+
 export async function DELETE(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const id = searchParams.get("id");

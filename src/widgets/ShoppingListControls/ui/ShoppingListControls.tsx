@@ -1,9 +1,13 @@
+"use client";
+
 import type { FC } from "react";
 import { AddItem } from "@/features/AddItem";
 import { Label } from "@/shared/ui/Label";
-import { ShoppingListName } from "@/features/ShoppingListName";
 import { ShoppingListComponent } from "@/entities/ShoppingListComponent";
-import { ShoppingListCompleteCancel } from "@/features/ShoppingListCompleteCancel";
+import {
+  ShoppingListFunctions,
+  useSave,
+} from "@/widgets/ShoppingListFunctions";
 
 interface ShoppingListControlsProps {
   className?: string;
@@ -12,6 +16,8 @@ interface ShoppingListControlsProps {
 export const ShoppingListControls: FC<ShoppingListControlsProps> = ({
   className = "",
 }: ShoppingListControlsProps) => {
+  const save = useSave((state) => state.save);
+
   return (
     <aside
       className={`${className} w-[390px] bg-[#FFF0DE] flex flex-col items-center h-screen pt-[44px] gap-11`}
@@ -19,7 +25,7 @@ export const ShoppingListControls: FC<ShoppingListControlsProps> = ({
       <AddItem />
       <Label type={"big"}>Shopping List</Label>
       <ShoppingListComponent />
-      <ShoppingListCompleteCancel />
+      <ShoppingListFunctions save={save} />
     </aside>
   );
 };

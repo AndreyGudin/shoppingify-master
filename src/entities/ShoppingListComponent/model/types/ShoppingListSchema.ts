@@ -17,3 +17,18 @@ export interface ShoppingList {
   items: ShoppingListItem;
   userId: string;
 }
+
+export interface ShoppingListGetResponse {
+  id: number;
+  items: ShoppingListGetResponseItem[];
+  name: string;
+  userId: string;
+}
+
+export interface ShoppingListGetResponseItem {
+  assignedAt: Date;
+  count: number;
+  itemId: number;
+  shoppingListId: number;
+  item: ItemSchema & { category: Omit<CategorySchema, "items"> };
+}

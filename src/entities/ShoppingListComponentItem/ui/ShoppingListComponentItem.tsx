@@ -15,7 +15,6 @@ interface ShoppingListComponentItemProps {
 
 export const ShoppingListComponentItem: FC<ShoppingListComponentItemProps> = ({
   className = "",
-  categoryName,
   id,
   count,
   name,

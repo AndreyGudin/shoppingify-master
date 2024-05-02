@@ -11,6 +11,7 @@ import { useShoppingList } from "../model/store/useShoppingList";
 import { useSession } from "next-auth/react";
 import { transformRespToState } from "../model/lib/transformRespToState";
 import { useSave } from "@/widgets/ShoppingListFunctions";
+import { ShoppingListComponentItem } from "@/entities/ShoppingListComponentItem";
 
 interface ShoppingListComponentProps {
   className?: string;
@@ -129,19 +130,20 @@ export const ShoppingListComponent: FC<ShoppingListComponentProps> = ({
             <Label type={"mediumGray"}>{categoryName}</Label>
             <div className='flex flex-col gap-6'>
               {items?.map((item) => (
-                <div key={item.id} className='flex justify-between gap-6'>
-                  <span
-                    className={labelVariants({ type: "large", sort: "center" })}
-                  >
-                    {item.name}
-                  </span>
-                  <Counter
-                    plus={() => handlePlusClick(item.id, categoryName)}
-                    minus={() => handleMinusClick(item.id, categoryName)}
-                    deleteItem={() => handleDeleteClick(item.id, categoryName)}
-                    count={item.count}
-                  />
-                </div>
+                <ShoppingListComponentItem
+                  key={item.id}
+                  categoryName={categoryName}
+                  count={item.count}
+                  id={item.id}
+                  name={item.name}
+                  handleDeleteClick={() =>
+                    handleDeleteClick(item.id, categoryName)
+                  }
+                  handleMinusClick={() =>
+                    handleMinusClick(item.id, categoryName)
+                  }
+                  handlePlusClick={() => handlePlusClick(item.id, categoryName)}
+                />
               ))}
             </div>
           </div>

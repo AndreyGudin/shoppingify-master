@@ -25,6 +25,7 @@ export const ShoppingListComponent: FC<ShoppingListComponentProps> = ({
     (state) => state.updateShoppingList
   );
   const setSave = useSave((state) => state.setSave);
+  const save = useSave((state) => state.save);
 
   const { data: session } = useSession();
 
@@ -131,6 +132,7 @@ export const ShoppingListComponent: FC<ShoppingListComponentProps> = ({
             <div className='flex flex-col gap-6'>
               {items?.map((item) => (
                 <ShoppingListComponentItem
+                  save={save}
                   key={item.id}
                   categoryName={categoryName}
                   count={item.count}

@@ -24,10 +24,15 @@ export const labelVariants = cva(
         center: ["text-center"],
         end: ["text-end"],
       },
+      transform: {
+        overline: ["line-through"],
+        noOverline: ["no-underline"],
+      },
     },
     defaultVariants: {
       type: "regular",
       sort: "start",
+      transform: "noOverline",
     },
   }
 );

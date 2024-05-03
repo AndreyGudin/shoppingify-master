@@ -1,6 +1,7 @@
 import { Counter } from "@/features/Counter";
+import { Checkbox } from "@/shared/ui/Checkbox";
 import { labelVariants } from "@/shared/ui/Label";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 
 interface ShoppingListComponentItemProps {
   className?: string;
@@ -11,10 +12,12 @@ interface ShoppingListComponentItemProps {
   handleDeleteClick?: () => void;
   count: number;
   name: string;
+  save?: boolean;
 }
 
 export const ShoppingListComponentItem: FC<ShoppingListComponentItemProps> = ({
   className = "",
+  save = true,
   id,
   count,
   name,
@@ -22,9 +25,25 @@ export const ShoppingListComponentItem: FC<ShoppingListComponentItemProps> = ({
   handleMinusClick = () => {},
   handlePlusClick = () => {},
 }: ShoppingListComponentItemProps) => {
+  const [checked, setChecked] = useState(false);
+
   return (
     <div key={id} className={`${className} flex justify-between gap-6`}>
-      <span className={labelVariants({ type: "large", sort: "center" })}>
+      {!save && (
+        <Checkbox
+          onCheckedChange={(checked) => {
+            if (checked) setChecked(true);
+            else setChecked(false);
+          }}
+        />
+      )}
+      <span
+        className={labelVariants({
+          type: "large",
+          sort: "center",
+          transform: checked ? "overline" : "noOverline",
+        })}
+      >
         {name}
       </span>
       <Counter

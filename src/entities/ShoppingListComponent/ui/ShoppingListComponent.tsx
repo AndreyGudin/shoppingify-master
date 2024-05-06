@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { transformRespToState } from "../model/lib/transformRespToState";
 import { useSave } from "@/widgets/ShoppingListFunctions";
 import { ShoppingListComponentItem } from "@/entities/ShoppingListComponentItem";
+import { SHOPPING_LIST_ID } from "@/shared/const/localStorage";
 
 interface ShoppingListComponentProps {
   className?: string;
@@ -44,8 +45,9 @@ export const ShoppingListComponent: FC<ShoppingListComponentProps> = ({
   );
 
   useEffect(() => {
-    if (session) {
-      fetch(`http://localhost:3000/api/list?email=${session.user.email}`, {
+    const id = localStorage.getItem(SHOPPING_LIST_ID);
+    if (session && id) {
+      fetch(`http://localhost:3000/api/list?id=${id}`, {
         method: "GET",
       })
         .then((r) => r.json())

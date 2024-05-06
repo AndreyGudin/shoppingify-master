@@ -1,3 +1,4 @@
+import { SHOPPING_LIST_ID } from "@/shared/const/localStorage";
 import { Button } from "@/shared/ui/Button";
 import { memo } from "react";
 import type { FC } from "react";
@@ -11,11 +12,17 @@ export const ShoppingListCompleteCancel: FC<ShoppingListCompleteCancelProps> =
     className = "",
   }: ShoppingListCompleteCancelProps) {
     const onCancel = () => {
-      fetch("http://localhost:3000/api/list?id=2", {
-        method: "DELETE",
-      })
-        .then((e) => console.log("delete", e))
-        .catch((e) => console.log("error delete", e));
+      const shoppingListId = localStorage.getItem(SHOPPING_LIST_ID);
+      if (shoppingListId) {
+        fetch(`http://localhost:3000/api/list?id=${shoppingListId}`, {
+          method: "DELETE",
+        })
+          .then((e) => {
+            localStorage.removeItem(SHOPPING_LIST_ID);
+            console.log("delete", e);
+          })
+          .catch((e) => console.log("error delete", e));
+      }
     };
 
     return (

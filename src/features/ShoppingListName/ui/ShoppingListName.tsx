@@ -7,6 +7,7 @@ import { useShoppingList } from "@/entities/ShoppingListComponent";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
 import { useSession } from "next-auth/react";
+import { SHOPPING_LIST_ID } from "@/shared/const/localStorage";
 
 interface ShoppingListNameProps {
   className?: string;
@@ -32,7 +33,8 @@ export const ShoppingListName: FC<ShoppingListNameProps> = memo(
         })
           .then((r) => r.json())
           .then((r) => {
-            localStorage.setItem("shoppingListId", r.id);
+            console.log("r2", r);
+            localStorage.setItem(SHOPPING_LIST_ID, r.id);
           })
           .catch((e) => console.log("error ", e));
       }

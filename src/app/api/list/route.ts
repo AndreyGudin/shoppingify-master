@@ -26,8 +26,7 @@ export async function POST(req: NextRequest) {
         item: { connect: { id: e.id } },
       };
     });
-    const existedUser = await db.user.findFirst({ where: { id: user.id } });
-    console.log("existedUser", existedUser);
+
     if (user.email) {
       const shoppingList = await db.shoppingList.create({
         data: {
@@ -40,14 +39,7 @@ export async function POST(req: NextRequest) {
           items: { create: itemsForCreation },
         },
       });
-      return NextResponse.json(
-        JSON.stringify({
-          status: "Success",
-          message: "Created",
-          id: shoppingList.id,
-        }),
-        { status: 200 }
-      );
+      return NextResponse.json({ id: shoppingList.id });
     }
     return new NextResponse(
       JSON.stringify({
@@ -70,11 +62,12 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
-  const email = searchParams.get("email");
+  const id = searchParams.get("id");
   try {
-    if (email) {
+    if (id) {
+      console.log("id", id);
       const getShoppingList = await db.shoppingList.findMany({
-        where: { items: { some: { shoppingListId: 2 } } },
+        where: { items: { some: { shoppingListId: Number(id) } } },
         include: {
           items: {
             include: {

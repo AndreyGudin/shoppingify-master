@@ -51,7 +51,7 @@ export const ShoppingListComponent: FC<ShoppingListComponentProps> = ({
         .then((r) => r.json())
         .then((r) => {
           console.log("r", r);
-          if (r) {
+          if (Object.values(r).length > 0) {
             updateShoppingList(transformRespToState(r));
             setSave(false);
           }

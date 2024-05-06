@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     const existedUser = await db.user.findFirst({ where: { id: user.id } });
     console.log("existedUser", existedUser);
     if (user.email) {
-      await db.shoppingList.create({
+      const shoppingList = await db.shoppingList.create({
         data: {
           name,
           user: {
@@ -44,6 +44,7 @@ export async function POST(req: NextRequest) {
         JSON.stringify({
           status: "Success",
           message: "Created",
+          id: shoppingList.id,
         }),
         { status: 200 }
       );
@@ -87,7 +88,6 @@ export async function GET(req: NextRequest) {
         },
       });
       console.log("getShoppingList", getShoppingList);
-
       return NextResponse.json({ ...getShoppingList[0] });
     }
     return new NextResponse(
@@ -111,14 +111,28 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const id = searchParams.get("id");
-
+  console.log(id);
   try {
-    const deletedItem = await db.shoppingList.delete({
-      where: { id: Number(id) },
-    });
+    if (id) {
+      await db.itemsInShoppingLists.deleteMany({
+        where: { shoppingListId: Number(id) },
+      });
+      const deletedItem = await db.shoppingList.delete({
+        where: { id: Number(id) },
+      });
+      console.log(deletedItem);
 
-    return NextResponse.json({ deletedItem });
+      return NextResponse.json({ deletedItem });
+    }
+    return new NextResponse(
+      JSON.stringify({
+        status: "Error",
+        message: "Shopping List not found",
+      }),
+      { status: 402 }
+    );
   } catch (error: any) {
+    console.log(error);
     return new NextResponse(
       JSON.stringify({
         status: "error",

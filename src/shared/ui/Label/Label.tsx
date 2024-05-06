@@ -12,6 +12,7 @@ export const labelVariants = cva(
     variants: {
       type: {
         regular: ["text-base leading-5 text-black"],
+        disabled: ["text-base leading-5 text-gray-300"],
         white: ["text-base text-white"],
         medium: ["text-sm font-bold"],
         mediumGray: ["text-sm text-textSmall"],

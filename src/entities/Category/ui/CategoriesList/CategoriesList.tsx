@@ -1,6 +1,7 @@
 import { CategorySchema } from "@/entities/Category";
 import { Item, ItemSchema } from "@/entities/Item";
 import { Label } from "@/shared/ui/Label/Label";
+import { useSave } from "@/widgets/ShoppingListFunctions";
 import { memo } from "react";
 import type { FC } from "react";
 
@@ -15,6 +16,8 @@ export const CategoriesList: FC<CategoriesListProps> = memo(function Category({
   className = "",
   handleClick = () => {},
 }: CategoriesListProps) {
+  const save = useSave((state) => state.save);
+
   const content = categories.map((category) => {
     const items = category.items.filter(
       (item) => item.categoryId === category.id
@@ -28,6 +31,7 @@ export const CategoriesList: FC<CategoriesListProps> = memo(function Category({
         <div className='flex gap-5'>
           {items.map((item) => (
             <Item
+              disabled={!save}
               key={item.id}
               onClick={() => handleClick(category.name, item)}
               name={item.name}

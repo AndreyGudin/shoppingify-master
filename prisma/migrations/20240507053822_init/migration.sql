@@ -1,4 +1,14 @@
 -- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Category" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
@@ -19,7 +29,7 @@ CREATE TABLE "Item" (
 CREATE TABLE "ShoppingList" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
 
     CONSTRAINT "ShoppingList_pkey" PRIMARY KEY ("id")
 );
@@ -27,24 +37,27 @@ CREATE TABLE "ShoppingList" (
 -- CreateTable
 CREATE TABLE "ItemsInShoppingLists" (
     "itemId" INTEGER NOT NULL,
+    "count" INTEGER NOT NULL,
     "shoppingListId" INTEGER NOT NULL,
     "assignedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "assignedBy" TEXT NOT NULL,
 
     CONSTRAINT "ItemsInShoppingLists_pkey" PRIMARY KEY ("itemId","shoppingListId")
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ShoppingList_userId_key" ON "ShoppingList"("userId");
+CREATE UNIQUE INDEX "ShoppingList_email_key" ON "ShoppingList"("email");
 
 -- AddForeignKey
 ALTER TABLE "Item" ADD CONSTRAINT "Item_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ShoppingList" ADD CONSTRAINT "ShoppingList_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ShoppingList" ADD CONSTRAINT "ShoppingList_email_fkey" FOREIGN KEY ("email") REFERENCES "User"("email") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ItemsInShoppingLists" ADD CONSTRAINT "ItemsInShoppingLists_itemId_fkey" FOREIGN KEY ("itemId") REFERENCES "Item"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

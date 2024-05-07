@@ -62,12 +62,12 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
-  const id = searchParams.get("id");
+  const email = searchParams.get("email");
   try {
-    if (id) {
-      console.log("id", id);
-      const getShoppingList = await db.shoppingList.findMany({
-        where: { items: { some: { shoppingListId: Number(id) } } },
+    if (email) {
+      console.log("email", email);
+      const getShoppingList = await db.shoppingList.findFirst({
+        where: { email },
         include: {
           items: {
             include: {
@@ -81,7 +81,7 @@ export async function GET(req: NextRequest) {
         },
       });
       console.log("getShoppingList", getShoppingList);
-      return NextResponse.json({ ...getShoppingList[0] });
+      return NextResponse.json({ ...getShoppingList });
     }
     return new NextResponse(
       JSON.stringify({
@@ -103,15 +103,15 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
-  const id = searchParams.get("id");
-  console.log(id);
+  const email = searchParams.get("email");
+  console.log(email);
   try {
-    if (id) {
+    if (email) {
       await db.itemsInShoppingLists.deleteMany({
-        where: { shoppingListId: Number(id) },
+        where: { shoppingList: { email } },
       });
       const deletedItem = await db.shoppingList.delete({
-        where: { id: Number(id) },
+        where: { email },
       });
       console.log(deletedItem);
 

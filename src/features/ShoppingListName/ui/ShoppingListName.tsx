@@ -34,7 +34,6 @@ export const ShoppingListName: FC<ShoppingListNameProps> = memo(
           .then((r) => r.json())
           .then((r) => {
             console.log("r2", r);
-            localStorage.setItem(SHOPPING_LIST_ID, r.id);
           })
           .catch((e) => console.log("error ", e));
       }

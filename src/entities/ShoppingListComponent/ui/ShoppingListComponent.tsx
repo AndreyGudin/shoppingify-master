@@ -46,18 +46,19 @@ export const ShoppingListComponent: FC<ShoppingListComponentProps> = ({
 
   useEffect(() => {
     const id = localStorage.getItem(SHOPPING_LIST_ID);
-    if (session && id) {
-      fetch(`http://localhost:3000/api/list?id=${id}`, {
+    if (session) {
+      fetch(`http://localhost:3000/api/list?email=${session.user.email}`, {
         method: "GET",
       })
         .then((r) => r.json())
         .then((r) => {
           console.log("r", r);
-          if (Object.values(r).length > 0) {
+          if (Object.values(r).length > 0 && !("status" in r)) {
             updateShoppingList(transformRespToState(r));
             setSave(false);
           }
-        });
+        })
+        .catch((e) => console.log(e));
     }
   }, [session, setSave, updateShoppingList]);
 

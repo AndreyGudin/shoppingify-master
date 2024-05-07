@@ -1,18 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { memo, useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import type { FC } from "react";
 
 import ShoppingImage from "p/shopping.svg";
-import { Label, labelVariants } from "@/shared/ui/Label";
-import { Counter } from "@/features/Counter";
+import { Label } from "@/shared/ui/Label";
 import { useShoppingList } from "../model/store/useShoppingList";
 import { useSession } from "next-auth/react";
 import { transformRespToState } from "../model/lib/transformRespToState";
 import { useSave } from "@/widgets/ShoppingListFunctions";
 import { ShoppingListComponentItem } from "@/entities/ShoppingListComponentItem";
-import { SHOPPING_LIST_ID } from "@/shared/const/localStorage";
 
 interface ShoppingListComponentProps {
   className?: string;
@@ -45,7 +43,6 @@ export const ShoppingListComponent: FC<ShoppingListComponentProps> = ({
   );
 
   useEffect(() => {
-    const id = localStorage.getItem(SHOPPING_LIST_ID);
     if (session) {
       fetch(`http://localhost:3000/api/list?email=${session.user.email}`, {
         method: "GET",

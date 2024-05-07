@@ -1,5 +1,6 @@
-import { SHOPPING_LIST_ID } from "@/shared/const/localStorage";
+import { useShoppingList } from "@/entities/ShoppingListComponent";
 import { Button } from "@/shared/ui/Button";
+import { useSession } from "next-auth/react";
 import { memo } from "react";
 import type { FC } from "react";
 
@@ -11,14 +12,18 @@ export const ShoppingListCompleteCancel: FC<ShoppingListCompleteCancelProps> =
   memo(function ShoppingListCompleteCancel({
     className = "",
   }: ShoppingListCompleteCancelProps) {
+    const updateShoppingList = useShoppingList(
+      (state) => state.updateShoppingList
+    );
+    const { data: session } = useSession();
+
     const onCancel = () => {
-      const shoppingListId = localStorage.getItem(SHOPPING_LIST_ID);
-      if (shoppingListId) {
-        fetch(`http://localhost:3000/api/list?id=${shoppingListId}`, {
+      if (session) {
+        fetch(`http://localhost:3000/api/list?email=${session.user.email}`, {
           method: "DELETE",
         })
           .then((e) => {
-            localStorage.removeItem(SHOPPING_LIST_ID);
+            updateShoppingList(new Map([]));
             console.log("delete", e);
           })
           .catch((e) => console.log("error delete", e));

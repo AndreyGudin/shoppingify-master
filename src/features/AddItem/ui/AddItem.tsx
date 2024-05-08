@@ -8,10 +8,12 @@ import KetchupIcon from "p/ketchup-svgrepo-com.svg";
 
 interface AddItemProps {
   className?: string;
+  onClick?: () => void;
 }
 
 export const AddItem: FC<AddItemProps> = memo(function AddItem({
   className = "",
+  onClick = () => {},
 }: AddItemProps) {
   return (
     <div
@@ -29,7 +31,7 @@ export const AddItem: FC<AddItemProps> = memo(function AddItem({
 
       <div className='flex flex-col gap-3'>
         <Label type={"white"}>Didn&apos;t find what you need?</Label>
-        <Button>Add item</Button>
+        <Button onClick={onClick}>Add item</Button>
       </div>
     </div>
   );

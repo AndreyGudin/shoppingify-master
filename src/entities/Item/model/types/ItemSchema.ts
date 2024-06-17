@@ -2,6 +2,8 @@ export interface ItemSchema {
   id: number;
   name: string;
   categoryId: number;
+  note?: string;
+  image?: string;
 }
 
 export interface ItemType {

@@ -9,8 +9,10 @@ import {
   useSave,
 } from "@/widgets/ShoppingListFunctions";
 import { ItemCreation } from "@/features/ItemCreation/ui/ItemCreation";
+import { CategorySchema } from "@/entities/Category";
 
 interface ShoppingListControlsProps {
+  categories?: CategorySchema[];
   className?: string;
 }
 

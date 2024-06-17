@@ -1,3 +1,4 @@
+import { ItemType } from "@/entities/Item";
 import { CategorySelect } from "@/features/CategorySelect";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
@@ -5,6 +6,7 @@ import { Label } from "@/shared/ui/Label";
 import { Textarea } from "@/shared/ui/Textarea";
 import { memo } from "react";
 import type { FC } from "react";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 
 interface ItemCreationProps {
   className?: string;
@@ -15,26 +17,66 @@ export const ItemCreation: FC<ItemCreationProps> = memo(function ItemCreation({
   className = "",
   onClick = () => {},
 }: ItemCreationProps) {
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<ItemType>({
+    mode: "onSubmit",
+    defaultValues: {
+      category: "",
+      image: "",
+      name: "",
+      note: "",
+    },
+  });
+
+  const onSubmit: SubmitHandler<ItemType> = (data) => {
+    console.log("click");
+    console.log(data);
+  };
+
   return (
-    <div
+    <form
       className={`${className} w-full bg-transparent flex flex-col gap-5 items-center`}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <Label type={"24px"}>Add a new item</Label>
       <div className='flex flex-col gap-2'>
         <Label type={"medium"}>Name</Label>
-        <Input theme={"disabled"} placeholder='Enter a name' />
+        <Input
+          {...register("name", { required: true })}
+          theme={"disabled"}
+          placeholder='Enter a name'
+        />
+        {errors.name?.type === "required" && (
+          <Label>This field is required</Label>
+        )}
       </div>
       <div className='flex flex-col gap-2'>
         <Label type={"medium"}>Note(optional)</Label>
-        <Textarea placeholder='Enter a name' />
+        <Textarea {...register("note")} placeholder='Enter a name' />
       </div>
       <div className='flex flex-col gap-2'>
         <Label type={"medium"}>Image(optional)</Label>
-        <Input theme={"disabled"} type='dis' placeholder='Enter a url' />
+        <Input
+          {...register("image")}
+          theme={"disabled"}
+          type='dis'
+          placeholder='Enter a url'
+        />
       </div>
       <div className='flex flex-col gap-2'>
         <Label type={"medium"}>Category</Label>
-        <CategorySelect />
+        <CategorySelect
+          name={"category"}
+          control={control}
+          rules={{ required: true }}
+        />
+        {errors.category?.type === "required" && (
+          <Label>This field is required</Label>
+        )}
       </div>
       <div className='flex gap-4 justify-center'>
         <Button
@@ -46,13 +88,16 @@ export const ItemCreation: FC<ItemCreationProps> = memo(function ItemCreation({
           cancel
         </Button>
         <Button
-          type='button'
+          type='submit'
           variant={"secondary"}
           className='w-[87px] h-[61px]'
+          onClick={() => {
+            console.log(errors);
+          }}
         >
           Save
         </Button>
       </div>
-    </div>
+    </form>
   );
 });

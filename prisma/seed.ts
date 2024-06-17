@@ -32,10 +32,12 @@ async function main() {
       {
         name: "Avocado",
         categoryId: 1,
+        note: `The fruit is exceedingly variable in size, no larger than a hen’s egg in certain Mexican races and sometimes weighing 1–2 kg (2–4 pounds) in other races. The form varies from round to pear-shaped with a long slender neck, and the colour ranges from green to dark purple. Botanically, the fruit is a berry and features a single large round seed with two cotyledons. The fruit’s outer skin is sometimes no thicker than that of an apple and sometimes is coarse and woody in texture.`,
       },
       {
         name: "Banana",
         categoryId: 1,
+        note: `The banana plant is a gigantic herb that springs from an underground stem, or rhizome, to form a false trunk 3–6 metres (10–20 feet) high. This trunk is composed of the basal portions of leaf sheaths and is crowned with a rosette of 10 to 20 oblong to elliptic leaves that sometimes attain a length of 3–3.5 metres (10–11.5 feet) and a breadth of 65 cm (26 inches). `,
       },
       {
         name: "Watermelon",

@@ -2,7 +2,7 @@ import { CategorySchema } from "@/entities/Category";
 import { Item, ItemSchema } from "@/entities/Item";
 import { Label } from "@/shared/ui/Label/Label";
 import { useSave } from "@/widgets/ShoppingListFunctions";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import type { FC } from "react";
 
 interface CategoriesListProps {
@@ -22,6 +22,7 @@ export const CategoriesList: FC<CategoriesListProps> = memo(function Category({
     const items = category.items.filter(
       (item) => item.categoryId === category.id
     );
+
     return (
       <div
         key={category.id}
@@ -31,16 +32,20 @@ export const CategoriesList: FC<CategoriesListProps> = memo(function Category({
         <div className='flex gap-5'>
           {items.map((item) => (
             <Item
-              disabled={!save}
               key={item.id}
               onClick={() => handleClick(category.name, item)}
-              name={item.name}
+              item={item}
+              categoryName={category.name}
             />
           ))}
         </div>
       </div>
     );
   });
+
+  useEffect(() => {
+    console.log("categories", categories);
+  }, [categories]);
 
   return content;
 });

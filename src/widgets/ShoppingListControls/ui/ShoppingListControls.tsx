@@ -10,6 +10,8 @@ import {
 } from "@/widgets/ShoppingListFunctions";
 import { ItemCreation } from "@/features/ItemCreation/ui/ItemCreation";
 import { CategorySchema } from "@/entities/Category";
+import { ItemInfo } from "@/entities/ItemInfo";
+import { useSideComponent } from "@/shared/store/useSideComponent";
 
 interface ShoppingListControlsProps {
   categories?: CategorySchema[];
@@ -20,6 +22,7 @@ export const ShoppingListControls: FC<ShoppingListControlsProps> = ({
   className = "",
 }: ShoppingListControlsProps) => {
   const save = useSave((state) => state.save);
+  const sideComponent = useSideComponent((state) => state.sideComponent);
   const [addItem, setAddItem] = useState(false);
 
   const onClickAddItem = useCallback(() => {
@@ -29,20 +32,23 @@ export const ShoppingListControls: FC<ShoppingListControlsProps> = ({
   const onClickCancel = useCallback(() => {
     setAddItem(false);
   }, []);
+
+  const mainBody = addItem ? (
+    <ItemCreation onClick={onClickCancel} />
+  ) : (
+    <>
+      <AddItem onClick={onClickAddItem} />
+      <Label type={"big"}>Shopping List</Label>
+      {sideComponent === "shoppingList" && <ShoppingListComponent />}
+      <ShoppingListFunctions save={save} />
+    </>
+  );
+
   return (
     <aside
       className={`${className} w-[390px] bg-[#FFF0DE] flex flex-col items-center h-screen pt-[44px] gap-11`}
     >
-      {addItem ? (
-        <ItemCreation onClick={onClickCancel} />
-      ) : (
-        <>
-          <AddItem onClick={onClickAddItem} />
-          <Label type={"big"}>Shopping List</Label>
-          <ShoppingListComponent />
-          <ShoppingListFunctions save={save} />
-        </>
-      )}
+      {sideComponent === "itemInfo" ? <ItemInfo /> : mainBody}
     </aside>
   );
 };

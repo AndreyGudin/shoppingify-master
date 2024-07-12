@@ -9,10 +9,12 @@ import { Label } from "@/shared/ui/Label";
 
 interface ItemInfoProps {
   className?: string;
+  onAddClick?: () => void;
 }
 
 export const ItemInfo: FC<ItemInfoProps> = memo(function ItemInfo({
   className = "",
+  onAddClick = () => {},
 }: ItemInfoProps) {
   const itemInfo = useItemInfo((state) => state.itemInfoState);
   const setSideComponent = useSideComponent((state) => state.setSideComponent);
@@ -42,9 +44,11 @@ export const ItemInfo: FC<ItemInfoProps> = memo(function ItemInfo({
         <Label type={"mediumGray"}>note</Label>
         <Label type={"24px"}>{itemInfo.note}</Label>
       </div>
-      <div className='w-full flex justify-center justify-around'>
+      <div className='w-full flex justify-center'>
         <Button variant={"ghost"}>delete</Button>
-        <Button variant={"secondary"}>Add to list</Button>
+        <Button onClick={onAddClick} variant={"secondary"}>
+          Add to list
+        </Button>
       </div>
     </div>
   );

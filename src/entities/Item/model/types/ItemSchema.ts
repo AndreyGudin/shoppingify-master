@@ -12,3 +12,5 @@ export interface ItemType {
   image?: string;
   category: string;
 }
+
+export type InfoState = ItemSchema & Pick<ItemType, "category">;

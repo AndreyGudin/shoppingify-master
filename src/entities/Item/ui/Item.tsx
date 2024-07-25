@@ -27,12 +27,7 @@ export const Item: FC<ItemProps> = memo(function Item({
   const setSideComponent = useSideComponent((state) => state.setSideComponent);
 
   const onClickLabelItem = () => {
-    const currentItem: ItemType = {
-      name: item.name,
-      image: item.image,
-      note: item.note,
-      category: categoryName,
-    };
+    const currentItem = { ...item, category: categoryName };
     setItemInfo(currentItem);
     setSideComponent("itemInfo");
   };

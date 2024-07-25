@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { ItemType } from "@/entities/Item";
+import { InfoState } from "@/entities/Item";
 
 interface ItemInfoState {
-  itemInfoState: ItemType;
-  setItemInfo: (state: ItemType) => void;
+  itemInfoState: InfoState;
+  setItemInfo: (state: InfoState) => void;
 }
 
 export const useItemInfo = create<ItemInfoState>((set) => ({
-  itemInfoState: { name: "", category: "" },
+  itemInfoState: { name: "", category: "", id: 1, categoryId: 1 },
   setItemInfo: (newState) => set(() => ({ itemInfoState: newState })),
 }));

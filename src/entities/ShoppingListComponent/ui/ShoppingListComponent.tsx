@@ -59,6 +59,10 @@ export const ShoppingListComponent: FC<ShoppingListComponentProps> = ({
     }
   }, [session, setSave, updateShoppingList]);
 
+  useEffect(() => {
+    console.log("shoppingList", shoppingList);
+  }, [shoppingList]);
+
   const handlePlusClick = useCallback(
     (itemId: number, categoryName: string) => {
       const clone = structuredClone(shoppingList);

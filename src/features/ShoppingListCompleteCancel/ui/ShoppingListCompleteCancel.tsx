@@ -1,5 +1,6 @@
 import { useShoppingList } from "@/entities/ShoppingListComponent";
 import { Button } from "@/shared/ui/Button";
+import { useSave } from "@/widgets/ShoppingListFunctions";
 import { useSession } from "next-auth/react";
 import { memo } from "react";
 import type { FC } from "react";
@@ -12,6 +13,8 @@ export const ShoppingListCompleteCancel: FC<ShoppingListCompleteCancelProps> =
   memo(function ShoppingListCompleteCancel({
     className = "",
   }: ShoppingListCompleteCancelProps) {
+    const setSave = useSave((state) => state.setSave);
+
     const updateShoppingList = useShoppingList(
       (state) => state.updateShoppingList
     );
@@ -24,6 +27,7 @@ export const ShoppingListCompleteCancel: FC<ShoppingListCompleteCancelProps> =
         })
           .then((e) => {
             updateShoppingList(new Map([]));
+            setSave(true);
             console.log("delete", e);
           })
           .catch((e) => console.log("error delete", e));

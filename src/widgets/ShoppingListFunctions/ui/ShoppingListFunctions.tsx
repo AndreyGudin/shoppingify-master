@@ -1,14 +1,10 @@
 import { ShoppingListCompleteCancel } from "@/features/ShoppingListCompleteCancel";
 import { ShoppingListName } from "@/features/ShoppingListName";
+import { useSave } from "../model/store/useSave";
 import { memo } from "react";
 import type { FC } from "react";
 
-interface ShoppingListFunctionsProps {
-  save: boolean;
-}
-
-export const ShoppingListFunctions: FC<ShoppingListFunctionsProps> = memo(
-  function ShoppingListFunctions({ save = true }: ShoppingListFunctionsProps) {
-    return <>{save ? <ShoppingListName /> : <ShoppingListCompleteCancel />}</>;
-  }
-);
+export const ShoppingListFunctions: FC = memo(function ShoppingListFunctions() {
+  const save = useSave((state) => state.save);
+  return <>{save ? <ShoppingListName /> : <ShoppingListCompleteCancel />}</>;
+});

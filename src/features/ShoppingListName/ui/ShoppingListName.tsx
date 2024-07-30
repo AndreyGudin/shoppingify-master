@@ -8,6 +8,7 @@ import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
 import { useSession } from "next-auth/react";
 import { SHOPPING_LIST_ID } from "@/shared/const/localStorage";
+import { useSave } from "@/widgets/ShoppingListFunctions";
 
 interface ShoppingListNameProps {
   className?: string;
@@ -16,6 +17,7 @@ interface ShoppingListNameProps {
 export const ShoppingListName: FC<ShoppingListNameProps> = memo(
   function ShoppingListName({ className = "" }: ShoppingListNameProps) {
     const [name, setName] = useState("");
+    const setSave = useSave((state) => state.setSave);
     const shoppingList = useShoppingList((state) => state.shoppingList);
     const { data: session } = useSession();
 
@@ -34,6 +36,7 @@ export const ShoppingListName: FC<ShoppingListNameProps> = memo(
           .then((r) => r.json())
           .then((r) => {
             console.log("r2", r);
+            setSave(false);
           })
           .catch((e) => console.log("error ", e));
       }

@@ -14,3 +14,9 @@ export interface ItemType {
 }
 
 export type InfoState = ItemSchema & Pick<ItemType, "category">;
+export type ItemTypeCreation = Omit<ItemType, "category"> & {
+  category: {
+    id: number;
+    name: string;
+  };
+};

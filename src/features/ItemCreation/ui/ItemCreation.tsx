@@ -1,5 +1,6 @@
-import { ItemType } from "@/entities/Item";
+import { ItemType, ItemTypeCreation } from "@/entities/Item";
 import { CategorySelect } from "@/features/CategorySelect";
+import { usePostProduct } from "@/features/ItemCreation/model/api/hooks/usePostItem";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
 import { Label } from "@/shared/ui/Label";
@@ -22,19 +23,19 @@ export const ItemCreation: FC<ItemCreationProps> = memo(function ItemCreation({
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<ItemType>({
+  } = useForm<ItemTypeCreation>({
     mode: "onSubmit",
     defaultValues: {
-      category: "",
+      category: {},
       image: "",
       name: "",
       note: "",
     },
   });
-
-  const onSubmit: SubmitHandler<ItemType> = (data) => {
-    console.log("click");
-    console.log(data);
+  const mutation = usePostProduct();
+  const onSubmit: SubmitHandler<ItemTypeCreation> = (data) => {
+    const result = mutation.mutate(data);
+    console.log("result", result);
   };
 
   return (

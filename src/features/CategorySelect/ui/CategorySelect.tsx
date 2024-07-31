@@ -15,14 +15,14 @@ import { Check, ChevronDown } from "lucide-react";
 import { useGetCategories } from "../model/api/hooks/useGetCategories/useGetCategories";
 import { CategorySchema } from "@/entities/Category";
 import { UseControllerProps, useController } from "react-hook-form";
-import { ItemType } from "@/entities/Item";
+import { ItemType, ItemTypeCreation } from "@/entities/Item";
 
 interface CategorySelectProps {
   category: string;
 }
 
 export const CategorySelect = function CategorySelect(
-  props: UseControllerProps<ItemType>
+  props: UseControllerProps<ItemTypeCreation>
 ) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState({});

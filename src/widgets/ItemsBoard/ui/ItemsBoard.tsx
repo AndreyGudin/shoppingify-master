@@ -9,11 +9,9 @@ import { useAddItem } from "@/shared/hooks/useAddItem";
 
 interface ItemsBoardProps {
   className?: string;
-  categories: CategorySchema[];
 }
 
 export const ItemsBoard: FC<ItemsBoardProps> = memo(function ItemsBoard({
-  categories,
   className = "",
 }: ItemsBoardProps) {
   const handleClick = useAddItem();

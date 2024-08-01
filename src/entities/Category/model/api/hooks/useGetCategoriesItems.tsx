@@ -11,7 +11,8 @@ export const useGetCategoriesItems = () => {
       const result = await $api.get<{ categories: CategorySchema[] }>(
         "/api/category"
       );
-      return result.data.categories;
+      console.log("result", result);
+      return result.data;
     },
   });
 };

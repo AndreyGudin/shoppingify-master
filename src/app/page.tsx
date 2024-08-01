@@ -7,15 +7,10 @@ import { ShoppingListControls } from "@/widgets/ShoppingListControls";
 import { authOptions } from "@/config/authOptions/auth";
 
 export default async function Home() {
-  const categories = await db.category.findMany({
-    include: {
-      items: true,
-    },
-  });
   return (
     <main className='flex min-h-screen items-center'>
       <SignOutButton />
-      <ItemsBoard categories={categories} />
+      <ItemsBoard />
       <ShoppingListControls />
     </main>
   );

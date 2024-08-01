@@ -40,7 +40,7 @@ export const ShoppingListControls: FC<ShoppingListControlsProps> = ({
       <AddItem onClick={onClickAddItem} />
       <Label type={"big"}>Shopping List</Label>
       {sideComponent === "shoppingList" && <ShoppingListComponent />}
-      <ShoppingListFunctions save={save} />
+      <ShoppingListFunctions />
     </>
   );
 

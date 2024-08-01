@@ -14,11 +14,15 @@ export const CategoriesList: FC<CategoriesListProps> = memo(function Category({
   className = "",
   handleClick = () => {},
 }: CategoriesListProps) {
-  const { data: categories } = useGetCategoriesItems();
+  const { data, isLoading, isFetching } = useGetCategoriesItems();
+
   useEffect(() => {
-    console.log("categoriesApi", categories);
-  }, [categories]);
-  const content = categories?.map((category) => {
+    console.log("categoriesApi", data);
+  }, [data]);
+
+  if (isLoading && isFetching) return <div>Loading</div>;
+
+  const content = data?.categories.map((category) => {
     const items = category.items.filter(
       (item) => item.categoryId === category.id
     );
@@ -42,10 +46,6 @@ export const CategoriesList: FC<CategoriesListProps> = memo(function Category({
       </div>
     );
   });
-
-  useEffect(() => {
-    console.log("categories", categories);
-  }, [categories]);
 
   return content;
 });

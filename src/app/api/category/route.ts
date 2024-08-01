@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/config/db/db";
 
 export async function GET(req: NextRequest) {
-  const categories = await db.category.findMany({});
+  const categories = await db.category.findMany({
+    include: {
+      items: true,
+    },
+  });
   console.log("categories", categories);
   if (categories) return NextResponse.json({ categories });
 

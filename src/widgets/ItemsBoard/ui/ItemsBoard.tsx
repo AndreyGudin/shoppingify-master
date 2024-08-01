@@ -30,7 +30,7 @@ export const ItemsBoard: FC<ItemsBoardProps> = memo(function ItemsBoard({
         <SearchItem />
       </div>
 
-      <CategoriesList categories={categories} handleClick={handleClick} />
+      <CategoriesList handleClick={handleClick} />
     </section>
   );
 });

@@ -1,24 +1,24 @@
 import { CategorySchema } from "@/entities/Category";
+import { useGetCategoriesItems } from "@/entities/Category/model/api/hooks/useGetCategoriesItems";
 import { Item, ItemSchema } from "@/entities/Item";
 import { Label } from "@/shared/ui/Label/Label";
-import { useSave } from "@/widgets/ShoppingListFunctions";
 import { memo, useEffect } from "react";
 import type { FC } from "react";
 
 interface CategoriesListProps {
   className?: string;
-  categories?: CategorySchema[];
   handleClick?: (categoryName: string, item: ItemSchema) => void;
 }
 
 export const CategoriesList: FC<CategoriesListProps> = memo(function Category({
-  categories = [],
   className = "",
   handleClick = () => {},
 }: CategoriesListProps) {
-  const save = useSave((state) => state.save);
-
-  const content = categories.map((category) => {
+  const { data: categories } = useGetCategoriesItems();
+  useEffect(() => {
+    console.log("categoriesApi", categories);
+  }, [categories]);
+  const content = categories?.map((category) => {
     const items = category.items.filter(
       (item) => item.categoryId === category.id
     );

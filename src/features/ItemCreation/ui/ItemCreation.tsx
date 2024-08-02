@@ -32,9 +32,10 @@ export const ItemCreation: FC<ItemCreationProps> = memo(function ItemCreation({
       note: "",
     },
   });
-  const mutation = usePostProduct();
+  const postProduct = usePostProduct();
+
   const onSubmit: SubmitHandler<ItemTypeCreation> = (data) => {
-    const result = mutation.mutate(data);
+    const result = postProduct.mutate(data);
     console.log("result", result);
   };
 

@@ -7,6 +7,7 @@ import { useSideComponent } from "@/shared/store/useSideComponent";
 import { MoveLeft } from "lucide-react";
 import { Label } from "@/shared/ui/Label";
 import { useAddItem } from "@/shared/hooks/useAddItem";
+import { useDeleteProduct } from "@/shared/api/hooks/useDeleteItem";
 
 interface ItemInfoProps {
   className?: string;
@@ -20,6 +21,7 @@ export const ItemInfo: FC<ItemInfoProps> = memo(function ItemInfo({
   );
   const setSideComponent = useSideComponent((state) => state.setSideComponent);
   const addClick = useAddItem();
+  const deleteProduct = useDeleteProduct();
 
   const handleBackClick = useCallback(() => {
     setSideComponent("shoppingList");
@@ -30,6 +32,11 @@ export const ItemInfo: FC<ItemInfoProps> = memo(function ItemInfo({
     addClick(category, itemSchemaObj);
     setSideComponent("shoppingList");
   };
+
+  const handleDeleteClick = useCallback(() => {
+    deleteProduct.mutate(id);
+    setSideComponent("shoppingList");
+  }, [deleteProduct, id, setSideComponent]);
 
   return (
     <div className={`${className} flex flex-col items-start px-11 gap-8`}>
@@ -53,7 +60,9 @@ export const ItemInfo: FC<ItemInfoProps> = memo(function ItemInfo({
         <Label type={"24px"}>{note}</Label>
       </div>
       <div className='w-full flex justify-center'>
-        <Button variant={"ghost"}>delete</Button>
+        <Button onClick={handleDeleteClick} variant={"ghost"}>
+          delete
+        </Button>
         <Button onClick={handleAddClick} variant={"secondary"}>
           Add to list
         </Button>

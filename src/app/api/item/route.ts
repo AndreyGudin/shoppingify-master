@@ -37,6 +37,20 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
-  const id = searchParams.get("id");
-  console.log("id", id);
+  const idToDelete = searchParams.get("id");
+  if (idToDelete) {
+    const deletedItem = await db.item.delete({
+      where: {
+        id: Number(idToDelete),
+      },
+    });
+    return NextResponse.json(deletedItem);
+  }
+  return new NextResponse(
+    JSON.stringify({
+      status: "Error",
+      message: "Id not found",
+    }),
+    { status: 402 }
+  );
 }

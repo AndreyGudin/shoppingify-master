@@ -1,5 +1,5 @@
 import { CategorySchema } from "@/entities/Category";
-import { useGetCategoriesItems } from "@/entities/Category/model/api/hooks/useGetCategoriesItems";
+import { useGetCategoriesItems } from "@/shared/api/hooks/useGetCategoriesItems";
 import { Item, ItemSchema } from "@/entities/Item";
 import { Label } from "@/shared/ui/Label/Label";
 import { memo, useEffect } from "react";

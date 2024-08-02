@@ -16,11 +16,8 @@ export async function POST(req: NextRequest) {
         note: newItem.note,
       },
     });
-    console.log("created", createItem);
     return NextResponse.json(createItem);
   } else {
-    console.log("createdCategory");
-
     const newCategory = await db.category.create({
       data: {
         name: newItem.category.name,
@@ -36,4 +33,10 @@ export async function POST(req: NextRequest) {
     });
     return NextResponse.json(newCategory);
   }
+}
+
+export async function DELETE(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams;
+  const id = searchParams.get("id");
+  console.log("id", id);
 }

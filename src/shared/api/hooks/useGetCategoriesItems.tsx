@@ -1,6 +1,6 @@
 "use client";
 
-import { CategorySchema } from "../../../model/types/CategorySchema";
+import { CategorySchema } from "../../../entities/Category/model/types/CategorySchema";
 import { $api } from "@/shared/api/instance";
 import { useQuery } from "@tanstack/react-query";
 

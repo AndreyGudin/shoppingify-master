@@ -1,6 +1,6 @@
 import { ItemType, ItemTypeCreation } from "@/entities/Item";
 import { CategorySelect } from "@/features/CategorySelect";
-import { usePostProduct } from "@/features/ItemCreation/model/api/hooks/usePostItem";
+import { usePostProduct } from "@/shared/api/hooks/usePostItem";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
 import { Label } from "@/shared/ui/Label";
